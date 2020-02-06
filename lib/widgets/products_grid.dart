@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../providers/products.dart';
 
 // Wdiget
-import './products_item.dart';
+import './product_item.dart';
 
 class ProductsGrid extends StatelessWidget {
   final bool showFavs;
