@@ -55,8 +55,8 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  void addProduct(Product product) {
-    http
+  Future<void> addProduct(Product product) {
+    return http
         .post(
       url + 'products.json',
       body: json.encode({
@@ -77,8 +77,11 @@ class Products with ChangeNotifier {
         isFavorite: product.isFavorite,
       );
       _items.add(newProdut);
+      notifyListeners();
+    }).catchError((err) {
+      print(err);
+      throw err;
     });
-    notifyListeners();
   }
 
   void updateProduct(String id, Product product) {
