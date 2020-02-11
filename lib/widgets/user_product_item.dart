@@ -16,6 +16,7 @@ class UserProductItem extends StatelessWidget {
   UserProductItem(this.title, this.imageUrl, this.id);
   @override
   Widget build(BuildContext context) {
+    final scaffold = Scaffold.of(context);
     return ListTile(
       title: Text(title),
       leading: CircleAvatar(
@@ -38,8 +39,33 @@ class UserProductItem extends StatelessWidget {
             IconButton(
               color: Theme.of(context).errorColor,
               icon: Icon(Icons.delete),
-              onPressed: () {
-                Provider.of<Products>(context, listen: false).deleteProduct(id);
+              onPressed: () async {
+                try {
+                  await Provider.of<Products>(context, listen: false)
+                      .deleteProduct(id)
+                      .then((_) {
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Deleting Success!',
+                          textAlign: TextAlign.center,
+                        ),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  });
+                } catch (e) {
+                  /// Karena async  maka gabisa langsung scaffold.(context)  karena ibaratnya udah ganti context jadi gabisa
+                  scaffold.showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Deleting failed!',
+                        textAlign: TextAlign.center,
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
             ),
           ],
