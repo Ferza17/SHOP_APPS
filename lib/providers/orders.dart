@@ -22,13 +22,17 @@ class OrderItem {
 class Orders with ChangeNotifier {
   static const url = 'https://shopappsflutter.firebaseio.com/';
   List<OrderItem> _orders = [];
+  final String authToken;
+  final String userId;
+
+  Orders(this.authToken, this.userId,this._orders);
 
   List<OrderItem> get orders {
     return [..._orders];
   }
 
   Future<void> fetchAndSetOrders() async {
-    final response = await http.get(url + 'orders.json');
+    final response = await http.get(url + 'orders/$userId.json?auth=$authToken');
     final List<OrderItem> loadedOrders = [];
     final extreactedData = json.decode(response.body) as Map<String, dynamic>;
     if(extreactedData == null) {
@@ -57,7 +61,7 @@ class Orders with ChangeNotifier {
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final timeStamp = DateTime.now();
     final response = await http.post(
-      url + 'orders.json',
+      url + 'orders/$userId.json?auth=$authToken',
       body: json.encode(
         ({
           "amount": total,

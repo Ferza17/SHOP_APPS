@@ -10,7 +10,6 @@ import '../providers/auth.dart';
 import '../models/http_exception.dart';
 
 // Screen
-import '../screens/produts_overview_screen.dart';
 
 enum AuthMode { Signup, Login }
 
