@@ -7,6 +7,9 @@ import './providers/cart.dart';
 import './providers/orders.dart';
 import './providers/auth.dart';
 
+// Helpers
+import './helpers/custom_route.dart';
+
 // Screen
 import './screens/produts_overview_screen.dart';
 import './screens/product_detail_screen.dart';
@@ -50,6 +53,12 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.purple,
             accentColor: Colors.deepOrange,
             fontFamily: 'Lato',
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+                TargetPlatform.iOS: CustomPageTransitionBuilder()
+              },
+            ),
           ),
           home: auth.isAuth
               ? ProductsOverviewScreen()
